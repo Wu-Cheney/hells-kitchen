@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import IngredientList from "@/components/IngredientList";
 import RecipeNutrition from "@/components/RecipeNutrition";
 import { getRecipeById } from "@/lib/api";
+import { getTotalTime } from "@/lib/formatters";
 import "@/styles/recipes.css";
 
 type RecipeDetailPageProps = {
@@ -47,6 +48,9 @@ export default async function RecipeDetailPage({
             <div className="recipe-meta">
               <span>Prep: {recipe.prepTime}</span>
               <span>Cook: {recipe.cookTime}</span>
+              <span>
+                Total time: {getTotalTime(recipe.prepTime, recipe.cookTime)}
+              </span>
               <span>Serves: {recipe.servings}</span>
               <span className={`difficulty difficulty-${recipe.difficulty}`}>
                 {recipe.difficulty}
