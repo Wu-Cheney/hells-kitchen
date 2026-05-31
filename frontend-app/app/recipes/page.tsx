@@ -19,9 +19,9 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
 
   return (
     <main className="recipes-page">
-      <section className="recipes-hero">
+      <section className="page-header">
         <div>
-          <p className="eyebrow">Recipe Manager</p>
+          <p className="page-label">Recipe Manager</p>
           <h1>Explore recipes</h1>
           <p>
             Browse recipes, view nutrition, and filter by tags, ingredients, and
