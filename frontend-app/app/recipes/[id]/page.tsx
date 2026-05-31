@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import IngredientList from "@/components/IngredientList";
+import ScaledIngredientSection from "@/components/ScaledIngredientSection";
 import RecipeNutrition from "@/components/RecipeNutrition";
 import { getRecipeById } from "@/lib/api";
 import { getTotalTime } from "@/lib/formatters";
@@ -51,7 +51,6 @@ export default async function RecipeDetailPage({
               <span>
                 Total time: {getTotalTime(recipe.prepTime, recipe.cookTime)}
               </span>
-              <span>Serves: {recipe.servings}</span>
               <span className={`difficulty difficulty-${recipe.difficulty}`}>
                 {recipe.difficulty}
               </span>
@@ -61,7 +60,10 @@ export default async function RecipeDetailPage({
 
         <div className="recipe-detail-layout">
           <div className="recipe-detail-main">
-            <IngredientList ingredients={recipe.ingredients} />
+            <ScaledIngredientSection
+              ingredients={recipe.ingredients}
+              servings={recipe.servings}
+            />
 
             <section className="detail-section">
               <h2>Instructions</h2>
