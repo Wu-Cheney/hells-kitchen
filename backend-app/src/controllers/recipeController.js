@@ -7,7 +7,9 @@ async function getRecipes(req, res, next) {
       tag: req.query.tag,
       ingredient: req.query.ingredient,
       dietary: req.query.dietary,
+      difficulty: req.query.difficulty,
     };
+
     const recipes = await recipeService.getRecipes(filters);
 
     res.json({

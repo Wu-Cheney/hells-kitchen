@@ -48,6 +48,14 @@ function recipeMatchesDietary(recipe, ingredientLookup, dietary) {
   });
 }
 
+function recipeMatchesDifficulty(recipe, difficulty) {
+  if (!difficulty) {
+    return true;
+  }
+
+  return normalizeText(recipe.difficulty) === normalizeText(difficulty);
+}
+
 function getRecipeDietaryLabels(recipe, ingredientLookup) {
   const supportedDiets = ["vegetarian", "vegan", "gluten-free"];
 
@@ -167,7 +175,8 @@ function applyRecipeFilters(recipes, ingredientLookup, filters) {
       recipeMatchesSearch(recipe, filters.search) &&
       recipeMatchesTag(recipe, filters.tag) &&
       recipeMatchesIngredient(recipe, ingredientLookup, filters.ingredient) &&
-      recipeMatchesDietary(recipe, ingredientLookup, filters.dietary)
+      recipeMatchesDietary(recipe, ingredientLookup, filters.dietary) &&
+      recipeMatchesDifficulty(recipe, filters.difficulty)
     );
   });
 }

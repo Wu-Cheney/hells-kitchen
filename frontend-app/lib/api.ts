@@ -8,6 +8,7 @@ export type RecipeFilters = {
   tag?: string;
   ingredient?: string;
   dietary?: string;
+  difficulty?: string;
 };
 
 async function fetchJson<T>(url: string): Promise<T> {

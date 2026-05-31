@@ -8,6 +8,7 @@ type RecipesPageProps = {
     tag?: string;
     ingredient?: string;
     dietary?: string;
+    difficulty?: string;
   }>;
 };
 
@@ -33,51 +34,78 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
         </div>
       </section>
 
-      <form className="recipe-filters">
-        <label>
-          Recipe name
-          <input
-            name="search"
-            type="search"
-            placeholder="Search by name"
-            defaultValue={filters.search || ""}
-          />
-        </label>
+      <form className="recipe-search-form">
+        <div className="search-row">
+          <label className="search-field">
+            Recipe name
+            <input
+              name="search"
+              type="search"
+              placeholder="Search by recipe name"
+              defaultValue={filters.search || ""}
+            />
+          </label>
 
-        <label>
-          Tag
-          <input
-            name="tag"
-            type="search"
-            placeholder="e.g. dinner, vegan"
-            defaultValue={filters.tag || ""}
-          />
-        </label>
+          <button type="submit">Search</button>
 
-        <label>
-          Ingredient
-          <input
-            name="ingredient"
-            type="search"
-            placeholder="e.g. garlic, chicken"
-            defaultValue={filters.ingredient || ""}
-          />
-        </label>
+          <a href="/recipes" className="clear-filters-link">
+            Clear
+          </a>
+        </div>
 
-        <label>
-          Dietary
-          <select name="dietary" defaultValue={filters.dietary || ""}>
-            <option value="">Any</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
-            <option value="gluten-free">Gluten-free</option>
-          </select>
-        </label>
+        <details
+          className="advanced-filters"
+          open={Boolean(
+            filters.tag ||
+            filters.ingredient ||
+            filters.dietary ||
+            filters.difficulty,
+          )}
+        >
+          <summary>Filters</summary>
 
-        <button type="submit">Apply filters</button>
-        <a href="/recipes" className="clear-filters-link">
-          Clear
-        </a>
+          <div className="filter-grid">
+            <label>
+              Tag
+              <input
+                name="tag"
+                type="search"
+                placeholder="e.g. dinner, pasta"
+                defaultValue={filters.tag || ""}
+              />
+            </label>
+
+            <label>
+              Ingredient
+              <input
+                name="ingredient"
+                type="search"
+                placeholder="e.g. garlic, chicken"
+                defaultValue={filters.ingredient || ""}
+              />
+            </label>
+
+            <label>
+              Dietary
+              <select name="dietary" defaultValue={filters.dietary || ""}>
+                <option value="">Any</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="vegan">Vegan</option>
+                <option value="gluten-free">Gluten-free</option>
+              </select>
+            </label>
+
+            <label>
+              Difficulty
+              <select name="difficulty" defaultValue={filters.difficulty || ""}>
+                <option value="">Any</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+          </div>
+        </details>
       </form>
 
       {recipes.length === 0 ? (
