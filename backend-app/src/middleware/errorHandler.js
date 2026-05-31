@@ -3,7 +3,6 @@ function notFoundHandler(req, res) {
     error: "Route not found",
   });
 }
-
 function errorHandler(error, req, res, next) {
   console.error(error);
 
