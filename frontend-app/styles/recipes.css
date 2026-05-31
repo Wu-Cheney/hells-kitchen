@@ -138,6 +138,21 @@
   text-transform: capitalize;
 }
 
+.difficulty-easy {
+  background: #eaf7ee;
+  color: #2f6b43;
+}
+
+.difficulty-medium {
+  background: #fbf2d6;
+  color: #7a5a1f;
+}
+
+.difficulty-hard {
+  background: #f9e7e7;
+  color: #7f3b3b;
+}
+
 .dietary-tag {
   background: #ecfdf3;
   color: #166534;
@@ -253,7 +268,7 @@
   text-decoration: underline;
 }
 
-.recipe-detail-hero {
+.recipe-detail-header {
   padding: 32px;
   border: 1px solid #e5e5e5;
   border-radius: 24px;
@@ -261,12 +276,12 @@
   margin-bottom: 24px;
 }
 
-.recipe-detail-hero h1 {
+.recipe-detail-header h1 {
   margin: 16px 0 12px;
   font-size: 2.5rem;
 }
 
-.recipe-detail-hero p {
+.recipe-detail-header p {
   max-width: 720px;
   color: #555;
 }
@@ -442,7 +457,7 @@
     position: static;
   }
 
-  .recipe-detail-hero h1 {
+  .recipe-detail-header h1 {
     font-size: 2rem;
   }
 

@@ -1,3 +1,7 @@
+export type Difficulty = "easy" | "medium" | "hard";
+
+export type DietaryLabel = "vegetarian" | "vegan" | "gluten-free";
+
 export type Nutrition = {
   calories: number;
   protein: number;
@@ -31,12 +35,12 @@ export type RecipeListItem = {
   servings: number;
   prepTime: string;
   cookTime: string;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: Difficulty;
   tags: string[];
   dateAdded: string;
   ingredientNames: string[];
   nutrition: NutritionSummary;
-  dietaryLabels: string[];
+  dietaryLabels: DietaryLabel[];
 };
 
 export type RecipeDetail = Omit<RecipeListItem, "ingredientNames"> & {

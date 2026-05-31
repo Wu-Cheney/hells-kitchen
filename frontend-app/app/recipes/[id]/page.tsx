@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ScaledIngredientSection from "@/components/ScaledIngredientSection";
 import RecipeNutrition from "@/components/RecipeNutrition";
-import { getRecipeById } from "@/lib/api";
+import { ApiError, getRecipeById } from "@/lib/api";
 import { getTotalTime } from "@/lib/formatters";
 import "@/styles/recipes.css";
 
@@ -26,7 +26,7 @@ export default async function RecipeDetailPage({
           ← Back to recipes
         </Link>
 
-        <section className="recipe-detail-hero">
+        <section className="recipe-detail-header">
           <div>
             <div className="recipe-tags">
               {recipe.tags.map((tag) => (
@@ -82,7 +82,11 @@ export default async function RecipeDetailPage({
         </div>
       </main>
     );
-  } catch {
-    notFound();
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) {
+      notFound();
+    }
+
+    throw error;
   }
 }
