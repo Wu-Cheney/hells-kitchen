@@ -1,6 +1,12 @@
 const recipeRepository = require("../repositories/recipeRepository");
 const { calculateNutrition } = require("./nutritionService");
 
+function normalizeText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .trim();
+}
+
 function formatIngredientId(ingredientId) {
   return String(ingredientId || "")
     .split("_")
@@ -11,6 +17,43 @@ function formatIngredientId(ingredientId) {
 
 function buildIngredientLookup(ingredients) {
   return new Map(ingredients.map((ingredient) => [ingredient.id, ingredient]));
+}
+
+function ingredientMatchesDietary(ingredient, dietary) {
+  const normalizedDietary = normalizeText(dietary);
+  const dietaryLabels = ingredient.dietary.map(normalizeText);
+
+  if (normalizedDietary === "vegetarian") {
+    return (
+      dietaryLabels.includes("vegetarian") || dietaryLabels.includes("vegan")
+    );
+  }
+
+  return dietaryLabels.includes(normalizedDietary);
+}
+
+function recipeMatchesDietary(recipe, ingredientLookup, dietary) {
+  if (!dietary) {
+    return true;
+  }
+
+  return recipe.ingredients.every((recipeIngredient) => {
+    const ingredient = ingredientLookup.get(recipeIngredient.ingredientId);
+
+    if (!ingredient) {
+      return false;
+    }
+
+    return ingredientMatchesDietary(ingredient, dietary);
+  });
+}
+
+function getRecipeDietaryLabels(recipe, ingredientLookup) {
+  const supportedDiets = ["vegetarian", "vegan", "gluten-free"];
+
+  return supportedDiets.filter((dietary) =>
+    recipeMatchesDietary(recipe, ingredientLookup, dietary),
+  );
 }
 
 function resolveRecipeIngredients(recipeIngredients, ingredientLookup) {
@@ -53,10 +96,13 @@ function buildRecipeDetail(recipe, ingredientLookup) {
     recipe.servings,
   );
 
+  const dietaryLabels = getRecipeDietaryLabels(recipe, ingredientLookup);
+
   return {
     ...recipe,
     ingredients: resolvedIngredients,
     nutrition,
+    dietaryLabels,
   };
 }
 
@@ -75,13 +121,8 @@ function buildRecipeListItem(recipe, ingredientLookup) {
     dateAdded: detail.dateAdded,
     ingredientNames: detail.ingredients.map((ingredient) => ingredient.name),
     nutrition: detail.nutrition,
+    dietaryLabels: detail.dietaryLabels,
   };
-}
-
-function normalizeText(value) {
-  return String(value || "")
-    .toLowerCase()
-    .trim();
 }
 
 function recipeMatchesSearch(recipe, search) {
@@ -125,7 +166,8 @@ function applyRecipeFilters(recipes, ingredientLookup, filters) {
     return (
       recipeMatchesSearch(recipe, filters.search) &&
       recipeMatchesTag(recipe, filters.tag) &&
-      recipeMatchesIngredient(recipe, ingredientLookup, filters.ingredient)
+      recipeMatchesIngredient(recipe, ingredientLookup, filters.ingredient) &&
+      recipeMatchesDietary(recipe, ingredientLookup, filters.dietary)
     );
   });
 }

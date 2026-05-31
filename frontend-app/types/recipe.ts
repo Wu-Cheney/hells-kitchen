@@ -36,6 +36,7 @@ export type RecipeListItem = {
   dateAdded: string;
   ingredientNames: string[];
   nutrition: NutritionSummary;
+  dietaryLabels: string[];
 };
 
 export type RecipeDetail = Omit<RecipeListItem, "ingredientNames"> & {

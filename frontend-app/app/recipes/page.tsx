@@ -7,6 +7,7 @@ type RecipesPageProps = {
     search?: string;
     tag?: string;
     ingredient?: string;
+    dietary?: string;
   }>;
 };
 
@@ -61,6 +62,16 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
             placeholder="e.g. garlic, chicken"
             defaultValue={filters.ingredient || ""}
           />
+        </label>
+
+        <label>
+          Dietary
+          <select name="dietary" defaultValue={filters.dietary || ""}>
+            <option value="">Any</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+            <option value="gluten-free">Gluten-free</option>
+          </select>
         </label>
 
         <button type="submit">Apply filters</button>

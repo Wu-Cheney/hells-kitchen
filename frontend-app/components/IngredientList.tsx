@@ -20,22 +20,9 @@ export default function IngredientList({ ingredients }: IngredientListProps) {
 
               {ingredient.isMissingMetadata && (
                 <p className="warning-text">
-                  Ingredient details not found. Nutrition and labels may be
+                  * Ingredient details not found. Nutrition and labels may be
                   incomplete.
                 </p>
-              )}
-            </div>
-
-            <div className="ingredient-meta">
-              {ingredient.isMissingMetadata ? (
-                <span>missing metadata</span>
-              ) : (
-                <>
-                  <span>{ingredient.category}</span>
-                  {ingredient.dietary.slice(0, 2).map((diet) => (
-                    <span key={diet}>{diet}</span>
-                  ))}
-                </>
               )}
             </div>
           </li>

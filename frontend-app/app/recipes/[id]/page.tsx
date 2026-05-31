@@ -33,6 +33,12 @@ export default async function RecipeDetailPage({
                   {tag}
                 </span>
               ))}
+
+              {recipe.dietaryLabels.map((label) => (
+                <span key={label} className="dietary-tag">
+                  {label}
+                </span>
+              ))}
             </div>
 
             <h1>{recipe.title}</h1>
