@@ -1,3 +1,9 @@
+const DIFFICULTY_RANKS = {
+  easy: 1,
+  medium: 2,
+  hard: 3,
+};
+
 function normalizeText(value) {
   return String(value || "")
     .toLowerCase()
@@ -104,13 +110,7 @@ function getTotalRecipeMinutes(recipe) {
 }
 
 function getDifficultyRank(difficulty) {
-  const difficultyRanks = {
-    easy: 1,
-    medium: 2,
-    hard: 3,
-  };
-
-  return difficultyRanks[normalizeText(difficulty)] || 99;
+  return DIFFICULTY_RANKS[normalizeText(difficulty)] || 99;
 }
 
 function sortRecipes(recipes, sort) {

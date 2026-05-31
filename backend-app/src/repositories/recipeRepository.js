@@ -5,7 +5,17 @@ const dataFilePath = path.join(__dirname, "../../db/data.json");
 
 async function getData() {
   const fileContents = await fs.readFile(dataFilePath, "utf8");
-  return JSON.parse(fileContents);
+  const data = JSON.parse(fileContents);
+
+  if (!Array.isArray(data.recipes)) {
+    throw new Error("Invalid data.json: expected recipes to be an array");
+  }
+
+  if (!Array.isArray(data.ingredients)) {
+    throw new Error("Invalid data.json: expected ingredients to be an array");
+  }
+
+  return data;
 }
 
 async function getRecipes() {

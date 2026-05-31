@@ -8,7 +8,11 @@ function parseAmount(amount) {
   if (normalizedAmount.includes("/")) {
     const [numerator, denominator] = normalizedAmount.split("/").map(Number);
 
-    if (!numerator || !denominator) {
+    if (
+      Number.isNaN(numerator) ||
+      Number.isNaN(denominator) ||
+      denominator === 0
+    ) {
       return 0;
     }
 

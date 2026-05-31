@@ -51,8 +51,8 @@ function convertToGrams(amount, unit) {
     .trim();
   const gramsPerUnit = UNIT_TO_GRAMS[normalizedUnit];
 
-  if (!gramsPerUnit) {
-    return amount * 100;
+  if (gramsPerUnit === undefined) {
+    return null;
   }
 
   return amount * gramsPerUnit;

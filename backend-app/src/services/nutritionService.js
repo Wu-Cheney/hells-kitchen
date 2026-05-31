@@ -27,19 +27,24 @@ function addNutrition(currNutrition, ingredientNutrition, multiplier) {
 }
 
 function calculateNutrition(recipeIngredients, ingredientLookup, servings) {
-  const missingIngredientIds = [];
+  const missingIngredientIds = new Set();
 
   const totalNutrition = recipeIngredients.reduce(
     (currNutrition, recipeIngredient) => {
       const ingredient = ingredientLookup.get(recipeIngredient.ingredientId);
 
       if (!ingredient) {
-        missingIngredientIds.push(recipeIngredient.ingredientId);
+        missingIngredientIds.add(recipeIngredient.ingredientId);
         return currNutrition;
       }
 
       const amount = parseAmount(recipeIngredient.amount);
       const grams = convertToGrams(amount, recipeIngredient.unit);
+
+      if (grams === null) {
+        missingIngredientIds.add(recipeIngredient.ingredientId);
+        return currNutrition;
+      }
 
       // Assumption: ingredient nutrition values are per 100g.
       const multiplier = grams / 100;
@@ -52,6 +57,7 @@ function calculateNutrition(recipeIngredients, ingredientLookup, servings) {
   );
 
   const safeServings = servings > 0 ? servings : 1;
+  const missingIds = Array.from(missingIngredientIds);
 
   const perServingNutrition = {
     calories: totalNutrition.calories / safeServings,
@@ -63,8 +69,8 @@ function calculateNutrition(recipeIngredients, ingredientLookup, servings) {
   return {
     total: roundNutrition(totalNutrition),
     perServing: roundNutrition(perServingNutrition),
-    isComplete: missingIngredientIds.length === 0,
-    missingIngredientIds,
+    isComplete: missingIds.length === 0,
+    missingIngredientIds: missingIds,
   };
 }
 
