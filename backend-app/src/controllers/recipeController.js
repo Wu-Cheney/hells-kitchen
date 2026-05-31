@@ -8,6 +8,7 @@ async function getRecipes(req, res, next) {
       ingredient: req.query.ingredient,
       dietary: req.query.dietary,
       difficulty: req.query.difficulty,
+      sort: req.query.sort,
     };
 
     const recipes = await recipeService.getRecipes(filters);

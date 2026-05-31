@@ -9,6 +9,7 @@ type RecipesPageProps = {
     ingredient?: string;
     dietary?: string;
     difficulty?: string;
+    sort?: string;
   }>;
 };
 
@@ -56,10 +57,12 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
         <details
           className="advanced-filters"
           open={Boolean(
+            filters.search ||
             filters.tag ||
             filters.ingredient ||
             filters.dietary ||
-            filters.difficulty,
+            filters.difficulty ||
+            filters.sort,
           )}
         >
           <summary>Filters</summary>
@@ -102,6 +105,16 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
+              </select>
+            </label>
+
+            <label>
+              Sort by
+              <select name="sort" defaultValue={filters.sort || ""}>
+                <option value="">Default</option>
+                <option value="newest">Newest</option>
+                <option value="totalTime">Total time</option>
+                <option value="difficulty">Difficulty</option>
               </select>
             </label>
           </div>
