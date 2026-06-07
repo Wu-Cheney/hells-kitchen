@@ -10,6 +10,7 @@ export function getTotalTime(prepTime: string, cookTime: string) {
   return formatMinutes(totalMinutes);
 }
 
+// Matches one or more consecutive digits anywhere in string
 function parseMinutes(time: string) {
   const match = time.match(/\d+/);
 

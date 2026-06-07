@@ -10,6 +10,7 @@ function normalizeText(value) {
     .trim();
 }
 
+// Checks if a single ingredient matches a dietary restriction.
 function ingredientMatchesDietary(ingredient, dietary) {
   const normalizedDietary = normalizeText(dietary);
   const dietaryLabels = ingredient.dietary.map(normalizeText);
@@ -23,6 +24,7 @@ function ingredientMatchesDietary(ingredient, dietary) {
   return dietaryLabels.includes(normalizedDietary);
 }
 
+// Checks if every ingredient in a recipe satisfies a dietary restriction.
 function recipeMatchesDietary(recipe, ingredientLookup, dietary) {
   if (!dietary) {
     return true;
@@ -39,6 +41,7 @@ function recipeMatchesDietary(recipe, ingredientLookup, dietary) {
   });
 }
 
+// Checks if a recipe matches the selected difficulty.
 function recipeMatchesDifficulty(recipe, difficulty) {
   if (!difficulty) {
     return true;
@@ -47,6 +50,7 @@ function recipeMatchesDifficulty(recipe, difficulty) {
   return normalizeText(recipe.difficulty) === normalizeText(difficulty);
 }
 
+// Checks if the recipe title matches the search text.
 function recipeMatchesSearch(recipe, search) {
   if (!search) {
     return true;
@@ -55,6 +59,7 @@ function recipeMatchesSearch(recipe, search) {
   return normalizeText(recipe.title).includes(normalizeText(search));
 }
 
+// Checks if the recipe has the selected tag.
 function recipeMatchesTag(recipe, tag) {
   if (!tag) {
     return true;
@@ -65,6 +70,7 @@ function recipeMatchesTag(recipe, tag) {
   );
 }
 
+// Checks if the recipe contains an ingredient matching the search text.
 function recipeMatchesIngredient(recipe, ingredientLookup, ingredientSearch) {
   if (!ingredientSearch) {
     return true;
@@ -83,6 +89,7 @@ function recipeMatchesIngredient(recipe, ingredientLookup, ingredientSearch) {
   });
 }
 
+// Applies all active filters to the recipe list.
 function filterRecipes(recipes, ingredientLookup, filters = {}) {
   return recipes.filter((recipe) => {
     return (
@@ -95,6 +102,7 @@ function filterRecipes(recipes, ingredientLookup, filters = {}) {
   });
 }
 
+// Parses minute values from strings
 function parseMinutes(time) {
   const match = String(time || "").match(/\d+/);
 
@@ -105,14 +113,17 @@ function parseMinutes(time) {
   return Number(match[0]);
 }
 
+// Calculates total recipe time from prep and cook time
 function getTotalRecipeMinutes(recipe) {
   return parseMinutes(recipe.prepTime) + parseMinutes(recipe.cookTime);
 }
 
+// Converts difficulty labels into sortable numeric values
 function getDifficultyRank(difficulty) {
   return DIFFICULTY_RANKS[normalizeText(difficulty)] || 99;
 }
 
+// Sorts recipes by the selected sort option
 function sortRecipes(recipes, sort) {
   if (!sort) {
     return recipes;
@@ -142,6 +153,7 @@ function sortRecipes(recipes, sort) {
   }
 }
 
+// Filters first, then sorts the remaining recipes
 function queryRecipes(recipes, ingredientLookup, filters = {}) {
   const filteredRecipes = filterRecipes(recipes, ingredientLookup, filters);
   return sortRecipes(filteredRecipes, filters.sort);

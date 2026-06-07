@@ -1,6 +1,7 @@
 const { parseAmount } = require("../utils/parseAmount");
 const { convertToGrams } = require("../utils/convertToGrams");
 
+// Creates a fresh nutrition accumulator for each calculation
 function createEmptyNutrition() {
   return {
     calories: 0,
@@ -10,6 +11,7 @@ function createEmptyNutrition() {
   };
 }
 
+// Rounds nutrition values before returning them to the API response
 function roundNutrition(nutrition) {
   return {
     calories: Math.round(nutrition.calories),
@@ -19,6 +21,7 @@ function roundNutrition(nutrition) {
   };
 }
 
+// Adds one ingredient's nutrition into the running recipe total
 function addNutrition(currNutrition, ingredientNutrition, multiplier) {
   currNutrition.calories += ingredientNutrition.calories * multiplier;
   currNutrition.protein += ingredientNutrition.protein * multiplier;
@@ -26,6 +29,7 @@ function addNutrition(currNutrition, ingredientNutrition, multiplier) {
   currNutrition.fat += ingredientNutrition.fat * multiplier;
 }
 
+// Calculates total and per-serving nutrition for a recipe
 function calculateNutrition(recipeIngredients, ingredientLookup, servings) {
   const missingIngredientIds = new Set();
 
@@ -46,7 +50,7 @@ function calculateNutrition(recipeIngredients, ingredientLookup, servings) {
         return currNutrition;
       }
 
-      // Assumption: ingredient nutrition values are per 100g.
+      // Assumption: ingredient nutrition values are per 100g
       const multiplier = grams / 100;
 
       addNutrition(currNutrition, ingredient.nutrition, multiplier);

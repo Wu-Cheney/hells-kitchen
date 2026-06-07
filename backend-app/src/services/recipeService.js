@@ -6,6 +6,7 @@ const {
   buildRecipeListItem,
 } = require("./recipeBuilderService");
 
+// Gets the recipe list data, applies filters/sorting, and builds list responses.
 async function getRecipes(filters = {}) {
   const [recipes, ingredients] = await Promise.all([
     recipeRepository.getRecipes(),
@@ -20,6 +21,7 @@ async function getRecipes(filters = {}) {
   );
 }
 
+// Gets one recipe by ID and builds the full detail response.
 async function getRecipeById(id) {
   const [recipe, ingredients] = await Promise.all([
     recipeRepository.getRecipeById(id),

@@ -1,6 +1,7 @@
 const { calculateNutrition } = require("./nutritionService");
 const { recipeMatchesDietary } = require("./recipeQueryService");
 
+// Turns ingredient IDs into readable names when metadata is missing
 function formatIngredientId(ingredientId) {
   return String(ingredientId || "")
     .split("_")
@@ -9,10 +10,12 @@ function formatIngredientId(ingredientId) {
     .join(" ");
 }
 
+// Creates a fast ingredientId -> ingredient metadata lookup
 function buildIngredientLookup(ingredients) {
   return new Map(ingredients.map((ingredient) => [ingredient.id, ingredient]));
 }
 
+// Finds which supported dietary labels apply to the full recipe
 function getRecipeDietaryLabels(recipe, ingredientLookup) {
   const supportedDiets = ["vegetarian", "vegan", "gluten-free"];
 
@@ -21,6 +24,7 @@ function getRecipeDietaryLabels(recipe, ingredientLookup) {
   );
 }
 
+// Combines recipe ingredient amounts with ingredient metadata for display
 function resolveRecipeIngredients(recipeIngredients, ingredientLookup) {
   return recipeIngredients.map((recipeIngredient) => {
     const ingredient = ingredientLookup.get(recipeIngredient.ingredientId);
@@ -49,6 +53,7 @@ function resolveRecipeIngredients(recipeIngredients, ingredientLookup) {
   });
 }
 
+// Builds the full recipe detail response used by the recipe detail page
 function buildRecipeDetail(recipe, ingredientLookup) {
   const resolvedIngredients = resolveRecipeIngredients(
     recipe.ingredients,
@@ -71,6 +76,7 @@ function buildRecipeDetail(recipe, ingredientLookup) {
   };
 }
 
+// Builds a smaller recipe response used by the recipe list page
 function buildRecipeListItem(recipe, ingredientLookup) {
   const detail = buildRecipeDetail(recipe, ingredientLookup);
 
